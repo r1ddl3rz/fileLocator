@@ -32,12 +32,20 @@ def print_greeting():
 def gui_start():
     # Layout für das Suchfenster
     layout = [[sg.Text('Bitte Suchmuster eingeben:')],
-              [sg.InputText()], [sg.Checkbox('JMSAppender.class löschen?')],
+              [sg.InputText('log4*.jar')], [sg.Checkbox('JMSAppender.class löschen?')],
               [sg.Submit(), sg.Cancel()]]
 
     window = sg.Window('Dateisuche...', layout)
     # Event und Text-tupel
-    event, values = window.read()
+
+    while True:
+        event, values = window.read()
+        if event == sg.WINDOW_CLOSED:
+            break
+        elif event == 'Cancel':
+            break
+        elif event == 'Submit':
+            break
     window.close()
     # Text auslesen
     text_input = values[0]
@@ -124,7 +132,8 @@ def main():
         locate(args_dic['remove'], True, False)
     elif args_dic['default'] is None and args_dic['remove'] is None:  # NONE
         text_input, check_del, event = gui_start()
-        locate(text_input, check_del, True)
+        if event == 'Submit':
+            locate(text_input, check_del, True)
 
 
 main()
